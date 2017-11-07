@@ -6,23 +6,31 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
+import com.redhat.developers.msa.pojo1.CredencialAcessToken;
 import com.redhat.developers.msa.pojo1.CredencialLogin;
 
 
+@SuppressWarnings("deprecation")
 @Service
 public class SeguridadService {
 	
 	
+		
 	
-	
+	/**
+	 * GET
+	 * Obtener el token Credencial
+	 * @return
+	 */
 	public /*TokenCredencial*/ String getTokenCredencial()
 	{
 		StringBuffer response = new StringBuffer();
@@ -60,116 +68,94 @@ public class SeguridadService {
 	  return response.toString();		
 	  // return customerList.get(0);
 	}
-
-	
-	
 		
+	
+	/**
+	 * POST
+	 * Obtener el token Credencial
+	 * @param login
+	 * @return
+	 */
+	@SuppressWarnings("resource")
 	public /*TokenCredencial*/ String getTokenCredencial(CredencialLogin login)
 	{
 		
 		String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com/seguridad/credencial/";
 		
-		 HttpClient client = new HttpClient();
-		    PostMethod post = new PostMethod(url);
-		    //post.setRequestHeader("Authorization", encodedAuthorizationString);
-//		    if(headers != null && !headers.isEmpty()){
-//		        for(Entry<String, String> entry : headers.entrySet()){
-//		            //post.setRequestHeader(new Header(entry.getKey(), entry.getValue()));
-//		            //in the old code parameters were set as headers (the line above is replaced with the line below)
-//		            post.addParameter(new Header(entry.getKey(), entry.getValue()));
-//		        }
-//		    }
-		    post.setRequestHeader(new Header("Accept","application/json"));
-		    post.setRequestHeader(new Header("Content-Type","application/json"));
-		    
-		    NameValuePair[] pair = new NameValuePair[2];
-		    pair[0] = new  NameValuePair();
-		    pair[0].setName("user");
-		    pair[0].setValue("jose");
-		    
-		    
-		    pair[1] = new  NameValuePair();
-		    pair[1].setName("password");
-		    pair[1].setValue("jose123");
-		    
-		    
-		    //pair[0].setName("password");
-		    		    
-		    post.setRequestBody(pair);
-		    
-		    
-		    
-		    String responseFromPost = "Error";
-		    try {
-				client.executeMethod(post);
-				responseFromPost = post.getResponseBodyAsString();
-			} catch (HttpException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-		    post.releaseConnection();
-		    return responseFromPost;
-		    
-		    
-		    
-//		StringBuilder builder = new StringBuilder();
-//		
-//		try {
-//		
-//		  //String urlString = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com/seguridad/credencial/";
-//		  String urlString = "http://localhost:8080/seguridad/credencial/";
-//		  
-//		  
-//		  HashMap<String, String> params = new HashMap<String, String>();
-////	        params.put("client_id", id);
-////	        params.put("client_secret", secret);
-////	        params.put("grant_type", "authorization_code");
-////	        params.put("redirect_uri", redirect);
-////	        params.put("code", code);  // your INSTAGRAM code received
-//		    params.put("password", login.getPassword());
-//		    params.put("user", login.getUser());
-//	        //Set set = params.entrySet();
-//	        //Iterator i = set.iterator();
-//	        StringBuilder postData = new StringBuilder();
-//	        for (Map.Entry<String, String> param : params.entrySet()) {
-//	            if (postData.length() != 0) {
-//	                postData.append('&');
-//	            }
-//	            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-//	            postData.append('=');
-//	            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-//	        }
-//	        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-//		  
-//	      URL url = new URL(urlString);
-//	      HttpURLConnection conn = (HttpURLConnection) url.openConnection();		  
-//	      
-//	        conn.setRequestMethod("POST");
-//	        conn.setRequestProperty("Accept", "application/json");	        
-//	        conn.setRequestProperty("Content-Type", "application/json");	        
-//	        conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
-//	        conn.setDoOutput(true);
-//	        conn.getOutputStream().write(postDataBytes);
-//	        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));	        
-//	        for (String line = null; (line = reader.readLine()) != null;) {
-//	            builder.append(line).append("\n");
-//	        }
-//	        reader.close();
-//	        conn.disconnect();   
-//		  
-//		}catch(IOException ex) {
-//			System.out.println(ex.getMessage());
-//		}
-//		
-//	  // System.out.println("INSTAGRAM token returned: "+builder.toString());
-//	  return builder.toString();		
-//		
-//		//return "Seguridad fuente";
+		try {
+				 
+		    HttpPost post = new HttpPost(url);
+		    post.addHeader("Accept", "application/json");
+		    post.addHeader("Content-Type", "application/json");
+		    StringEntity entity = new StringEntity("{\"password\":\"jose123\", \"user\":\"jose\"}");
+		    post.setEntity(entity);
+		    HttpClient client = new DefaultHttpClient();
+		    HttpResponse response = client.execute(post);
+
+		    //StatusLine status = response.getStatusLine();
+			String content = EntityUtils.toString(response.getEntity());
+//			JSONObject json = new JSONObject(content);
+//			
+//			if(status.getStatusCode() == 200){
+//				listener.onSuccess(json);
+//			}else{
+//				listener.onError(json, status);
+//			}	
+			
+		    return content;
+		}catch(Exception ex) {
+			
+		}		    
+		    return "ERROR";
+
 	}
 
+	
+	/**
+	 * POST
+	 * Obtener el access token en base al token credencial
+	 * @param credencial
+	 * @return
+	 */
+	@SuppressWarnings("resource")
+	public /*RegresoAccessToken*/ String postaccesstoken(CredencialAcessToken credencial)
+	{
+		
+		String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com:80/seguridad/accesstoken/";
+		
+		try {
+				 
+		    HttpPost post = new HttpPost(url);
+		    post.addHeader("Accept", "application/json");
+		    post.addHeader("Content-Type", "application/json");
+		    StringEntity entity = new StringEntity("{\"client_id\":\"" + credencial.getClient_id() + "\"," +
+		    							"\"client_secret\":\"" + credencial.getClient_secret() + "\"," +
+		    							"\"grant_type\":\"" + credencial.getGrant_type() + "\"," +
+		    							"\"scope\":\"" + credencial.getScope() + "\"," +
+		    		                    "\"token\":\"" + credencial.getToken() + "\"}");
+		    post.setEntity(entity);
+		    HttpClient client = new DefaultHttpClient();
+		    HttpResponse response = client.execute(post);
+
+		    // StatusLine status = response.getStatusLine();
+			String content = EntityUtils.toString(response.getEntity());
+//			JSONObject json = new JSONObject(content);
+//			
+//			if(status.getStatusCode() == 200){
+//				listener.onSuccess(json);
+//			}else{
+//				listener.onError(json, status);
+//			}	
+			
+		    return content;
+		}catch(Exception ex) {
+			
+		}		    
+		    return "ERROR";
+
+	}
+
+
+	
 	
 }

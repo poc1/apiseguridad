@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -121,7 +120,8 @@ public class SeguridadService {
 	public /*RegresoAccessToken*/ String postaccesstoken(CredencialAcessToken credencial)
 	{
 		
-		String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com:80/seguridad/accesstoken/";
+		 String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com:80/seguridad/accesstoken/";
+	   //String url = "https://webapigateway.dev.mx.corp/santander-mexico/intranet-client-dev/oauth/password/token
 		
 		try {
 				 

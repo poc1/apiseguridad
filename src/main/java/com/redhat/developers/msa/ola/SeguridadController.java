@@ -43,25 +43,37 @@ public class SeguridadController {
 			this.service = service;
 	}
 	
+	/**
+	 * Obtener el token corporativo
+	 * @return
+	 */
     @RequestMapping(method = RequestMethod.GET, value = "/credencial", produces = "application/json")
-    @ApiOperation("regresa el token credencial o corporativo")
+    @ApiOperation("Obtener el token credencial o corporativo")
     public String getTokenCredencial() {
 		return service.getTokenCredencial();
     }
 	
+    /**
+     * Obtener el token corporativo 
+     * @param login
+     * @return
+     */
     @CrossOrigin
 	@RequestMapping(value="/credencial/", method=RequestMethod.POST)
 	@ApiOperation(value = "Obtener el token credencial o corporativo ( en base en el login de un usuario y pass fijos )", response = TokenCredencial.class, produces = "application/json")
     public @ResponseBody String posttokencorporativo(@RequestBody CredencialLogin login) {
-    	//return new TokenCredencial("QjQ2NTFDNjFGNTA5RkYwRjZGMEI0NEYyIzE4MC4xMDEuMTE2LjkjMTQ4MzYzMDgxMTMyNSNQRDk0Yld3Z2RtVnljMmx2YmowaU1TNHdJaUJsYm1OdlpHbHVaejBpU1ZOUExUZzROVGt0TVNJL1BqeDBiMnRsYmtSbFptbHVhWFJwYjI0K1BHNWhiV1UrUW1GeWNtbGxiblJ2Y3lCR1pYSnlkWHBqWVN3Z1JHRnRZWEpwY3p3dmJtRnRaVDQ4WVd4cFlYTStiakF4TURJM056d3ZZV3hwWVhNK1BIVnpaWEpKUkQ1dU1ERXdNamMzUEM5MWMyVnlTVVErUEM5MGIydGxia1JsWm1sdWFYUnBiMjQrI0RFU2VkZS9DQkMvUEtDUzVQYWRkaW5nI3YxI21leGljb2ludHJhbmV0I05PVF9VU0VEI1NIQTF3aXRoUlNBI3JOeitDV2xNUk1GQ3NSL2cwSUFNK0pQdUdlOUxFZjZEY29QSUJza2FKQmtXUVVPd3ovQ0phQktndndXcE5VVEEwL2dwdHQ3Z1hHM3hlZmVSeHdRR1ZWbnhmdEEyRWZ4bERmNkFDRkdKelFBdmZqVDNaVXgwM1YzMVJYZnllN3J6eSs5ZGR3c041cFl5eEtuVnZBL2lpQWRHc3RjRUF1UE8wck5lWjM3ZFpSND0=");
     	return service.getTokenCredencial(login);    	
     }
 	
+    /**
+     * Obtener el access token
+     * @param credencial
+     * @return
+     */
 	@CrossOrigin
 	@RequestMapping(value="/accesstoken/", method=RequestMethod.POST)
 	@ApiOperation(value = "Obtener el AccessToken", response = RegresoAccessToken.class, produces = "application/json")
     public @ResponseBody String postaccesstoken(@RequestBody CredencialAcessToken credencial) {
-		//return new RegresoAccessToken("bearer", "AAS2NTFDNjFGNTA5RkYwRjZGMEI0NEYyIzE4MC4xMDEuMTE2LjkjMTQ4MzYzMDgxMTMyNSNQRDk0Yld3Z2RtVnljMmx2YmowaU1TNHdJaUJsYm1OdlpHbHVaejBpU1ZOUExUZzROVGt0TVNJL1BqeDBiMnRsYmtSbFptbHVhWFJwYjI0K1BHNWhiV1UrUW1GeWNtbGxiblJ2Y3lCR1pYSnlkWHBqWVN3Z1JHRnRZWEpwY3p3dmJtRnRaVDQ4WVd4cFlYTStiakF4TURJM056d3ZZV3hwWVhNK1BIVnpaWEpKUkQ1dU1ERXdNamMzUEM5MWMyVnlTVVErUEM5MGIydGxia1JsWm1sdWFYUnBiMjQrI0RFU2VkZS9DQkMvUEtDUzVQYWRkaW5nI3YxI21leGljb2ludHJhbmV0I05PVF9VU0VEI1NIQTF3aXRoUlNBI3JOeitDV2xNUk1GQ3NSL2cwSUFNK0pQdUdlOUxFZjZEY29QSUJza2FKQmtXUVVPd3ovQ0phQktndndXcE5VVEEwL2dwdHQ3Z1hHM3hlZmVSeHdRR1ZWbnhmdEEyRWZ4bERmNkFDRkdKelFBdmZqVDNaVXgwM1YzMVJYZnllN3J6eSs5ZGR3c041cFl5eEtuVnZBL2lpQWRHc3RjRUF1UE8wck5lWjM3ZFpSND0=", 3600, "corporate_tables.read corporate_accounts.read corporate_cards.read corporate_customers.read customers.read customers_data.read retail_accounts.read retail_cards.read retail_customers.read audit.write");
 		return service.postaccesstoken(credencial);
     }
 

@@ -1,4 +1,4 @@
-package com.redhat.developers.msa.pojo1;
+package com.redhat.developers.msa.pojo;
 
 public class RegresoAccessToken {
 

@@ -7,9 +7,7 @@ public class CredencialLogin {
 	
 	
 	public CredencialLogin() {
-		super();
-		this.password = "";
-		this.user = "";
+		super();		
 	}
 	
 	public CredencialLogin(String password, String user) {

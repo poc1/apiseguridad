@@ -39,7 +39,8 @@ public class SeguridadService {
 		
 		try {
 		
-		  String urlString = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com/seguridad/credencial/";
+       // String urlString = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com/seguridad/credencial/";
+		  String urlString = "https://api.us.apiconnect.ibmcloud.com/paulosbaldogmailcom-dev/sb/seguridad/credencial/";
 		  
 		  URL url = new URL(urlString);
 		  HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -82,7 +83,8 @@ public class SeguridadService {
 	{
 		
 	 // String url = "http://localhost:8080/seguridad/credencial/";
-	    String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com/seguridad/credencial/";
+	 // String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com/seguridad/credencial/";
+		String url = "https://api.us.apiconnect.ibmcloud.com/paulosbaldogmailcom-dev/sb/seguridad/credencial/";
 		String content = "";
 		
 		// manejo de errores
@@ -149,9 +151,10 @@ public class SeguridadService {
 	@SuppressWarnings("resource")
 	public /*RegresoAccessToken*/ String postaccesstoken(CredencialAcessToken credencial)
 	{
-		
-		 String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com:80/seguridad/accesstoken/";
-	   //String url = "https://webapigateway.dev.mx.corp/santander-mexico/intranet-client-dev/oauth/password/token
+
+	  // String url = "https://webapigateway.dev.mx.corp/santander-mexico/intranet-client-dev/oauth/password/token
+	  // String url = "http://apibank-poc1.193b.starter-ca-central-1.openshiftapps.com:80/seguridad/accesstoken/";
+		 String url = "https://api.us.apiconnect.ibmcloud.com/paulosbaldogmailcom-dev/sb/seguridad/accesstoken/";
 		 String content = "";
 		 
 		 

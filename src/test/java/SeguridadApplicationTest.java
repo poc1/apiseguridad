@@ -1,6 +1,16 @@
+import static org.junit.Assert.fail;
+
+import java.util.concurrent.TimeUnit;
+
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,7 +29,30 @@ public class SeguridadApplicationTest {
 	
 	@Autowired
 	SeguridadService service;
+	
+	private static WebDriver driver;
+	private static StringBuffer verificationErrors = new StringBuffer();
 			
+	
+	@BeforeClass
+	public static void setUp() throws Exception {
+		
+		// configuracion de ruta chromedriver
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\paul\\Documents\\Librerias\\chromedriver_win32\\chromedriver.exe");
+		System.out.println("webdriver.chrome.driver : "  + System.getProperty("webdriver.chrome.driver"));
+		
+		String error = "";
+		try {
+			driver = new ChromeDriver();
+		    // baseUrl = "https://www.katalon.com/";
+		    driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+		    //error = "no hay error...";
+		}catch(Exception ext) {
+			error = ext.getMessage();
+		}
+		System.out.println(error);
+	}
+	
 	
 	@Test
 	public void TokenCredencial_Get_Test()
@@ -59,6 +92,45 @@ public class SeguridadApplicationTest {
 //		}	
 		Assert.assertNotNull("Se esperaba un valor diferente de nulo",  accesstoken);
 		Assert.assertFalse("La respuesta es incorrecta", !accesstoken.contains("scope"));
+	}
+	
+	
+	@Test
+	public void testUntitledTestCase() throws Exception {
+	    driver.get("https://www.google.com.mx/");
+	    driver.findElement(By.id("lst-ib")).click();
+	    driver.findElement(By.id("lst-ib")).clear();
+	    driver.findElement(By.id("lst-ib")).sendKeys("casa en la playa");
+	    driver.findElement(By.id("lst-ib")).sendKeys(Keys.ENTER);	    
+	    esperar(2);
+	    driver.findElement(By.linkText("Imágenes")).click();
+	    esperar(2);
+	    driver.findElement(By.name("rF0KFpsUZc9ZkM:")).click();
+	    esperar(2);
+	    System.out.println("exito en la prueba");
+	    Assert.assertTrue(true); 
+	    
+	}
+	
+	
+	
+	@AfterClass
+	public static void tearDown() throws Exception {
+	    driver.quit();
+	    String verificationErrorString = verificationErrors.toString();
+	    if (!"".equals(verificationErrorString)) {
+	      fail(verificationErrorString);
+	    }
+	}
+
+
+	
+	public void esperar (int segundos) {
+		try {
+		Thread.sleep (segundos*1000);
+		} catch (Exception e) {
+		// Mensaje en caso de que falle
+		}
 	}
 
 }
